@@ -136,8 +136,6 @@ object camion {
 	  return c.peligrosidad().between(_minimo,_maximo)
 	}
 
-	//COSA MAS PESADA falto terminar no se como hacer cuando
-	//esta vacio
 	method cosaMasPesada() {
 	  
 	  self.validarSiEstaCargadoCon_(self.cosas())

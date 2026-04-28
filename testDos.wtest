@@ -1,0 +1,60 @@
+import camion.*
+import cosas.*
+
+describe "ACCIDENTE" {
+  
+    test "ACCIDENTE: el camion tiene contenedor portuario con rider y bumblebee
+            en modo auto, embalaje de seguridad envolviendo 30kg de residuos
+            50 kg de arena, paquete de ladrillos de 100 y bateria cargada" 
+    {
+        contenedorPortuario.cargar(knightRider)
+        bumblebee.transformadoEn_(auto)
+        contenedorPortuario.cargar(bumblebee)
+
+        residuosRadioactivos.actualizarPeso(30)
+        embalajeSeguridad.embalar(residuosRadioactivos)
+        
+        arenaGranel.actualizarPeso(50)
+        paqueteLadrillos.ladrillosPorPaquete_(100)
+        bateríaAntiaérea.actualizarEstadoMisiles(true)   
+
+        camion.cargar(contenedorPortuario)
+        camion.cargar(embalajeSeguridad)
+        camion.cargar(arenaGranel)
+        camion.cargar(paqueteLadrillos)
+        camion.cargar(bateríaAntiaérea)
+
+        camion.sufrirAccidente()
+
+        assert.equals(robot,bumblebee.transformadoEn_())
+        
+        //no sufre accidente el residuo porque esta dentro del embalaje
+        assert.equals(30,residuosRadioactivos.peso())
+        assert.equals(70,arenaGranel.peso())
+        assert.equals(88,paqueteLadrillos.ladrillosPorPaquete_())
+        assert.notThat(bateríaAntiaérea.tieneMisiles())
+    }
+
+
+    test "ACCIDENTE: el camion tiene bumbelee en modo robot
+        30 kilos en residuos paquete de 10 ladrillos la bateria
+        aerea descargada" {
+
+        bumblebee.transformadoEn_(robot)
+        residuosRadioactivos.actualizarPeso(30)
+        paqueteLadrillos.ladrillosPorPaquete_(10)
+        bateríaAntiaérea.actualizarEstadoMisiles(false)
+
+        camion.cargar(bumblebee)
+        camion.cargar(residuosRadioactivos)
+        camion.cargar(paqueteLadrillos)
+        camion.cargar(bateríaAntiaérea)
+
+        camion.sufrirAccidente()
+
+        assert.equals(auto,bumblebee.transformadoEn_())
+        assert.equals(45,residuosRadioactivos.peso())
+        assert.equals(0,paqueteLadrillos.ladrillosPorPaquete_())
+        assert.notThat(bateríaAntiaérea.tieneMisiles())
+    }
+}
